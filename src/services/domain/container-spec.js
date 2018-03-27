@@ -19,7 +19,7 @@ class ContainerSpec {
 
   static fromSwarm (obj) {
     let response = new this()
-    response.image = _.get(obj, 'Image')
+    response.image = ContainerSpec._getImageWithoutSHA(obj)
     response.command = _.get(obj, 'Command')
     response.args = _.get(obj, 'Args')
     response.env = _.get(obj, 'Env')
@@ -43,6 +43,10 @@ class ContainerSpec {
       Mounts: this.mounts,
       Isolation: this.isolation
     }
+  }
+
+  static _getImageWithoutSHA (obj) {
+    return _.get(obj, 'Image').replace(/@.*/, '')
   }
 }
 
