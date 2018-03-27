@@ -1,0 +1,14 @@
+docker:
+  origin:
+    url: "http://my.docker.tld/path"
+    apiKey: "8cfcd5fc-190b-497c-9efa-603b948e1ea5"
+  destination:
+    url: "http://my.docker.tld/path"
+    apiKey: "8cfcd5fc-190b-497c-9efa-603b948e1ea5"
+  registry:
+    username: username
+    password: password
+    serveraddress: "https://my.docker-registry.tld"
+
+logging:
+  level: info
