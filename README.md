@@ -42,5 +42,5 @@ In order to migrate services from one cluster to another you must...
 
 ## Roadmap
 
-- [ ] Use private registry according to image name
-- [ ] 
+- [x] Use private registry according to image name
+- [ ] Add support for %HOME/.swamigrc config file

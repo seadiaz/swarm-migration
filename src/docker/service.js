@@ -1,9 +1,11 @@
 const logger = require('winston')
+const _ = require('lodash')
 
 class Service {
-  constructor (client) {
+  constructor (client, registries) {
     logger.silly('creating instance of %s', this.constructor.name)
     this._client = client
+    this._registries = registries
   }
 
   list () {
@@ -40,7 +42,9 @@ class Service {
 
   create (service) {
     return new Promise((resolve, reject) => {
-      this._client.post('/services/create', service)
+      this._client.post('/services/create', service, {
+        headers: this._buildRegistryHeaders(service.TaskTemplate.ContainerSpec.Image)
+      })
         .then((value) => {
           if (value.status !== 201) {
             reject(new Error(value.data))
@@ -68,6 +72,20 @@ class Service {
           reject(err)
         })
     })
+  }
+
+  _buildRegistryHeaders (image) {
+    let registry = _.find(this._registries, (registry) => {
+      return _.includes(image, registry.serveraddress)
+    })
+
+    if (registry) {
+      return {
+        'X-Registry-Auth': Buffer.from(JSON.stringify(registry)).toString('Base64')
+      }
+    }
+
+    return {}
   }
 }
 

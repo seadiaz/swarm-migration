@@ -19,7 +19,7 @@ class MigrationServiceExpert {
     this._destinationDocker = new DockerClient({
       baseURL: config.get('docker.destination.url'),
       apiKey: config.get('docker.destination.apiKey'),
-      registry: config.get('docker.registry')
+      registries: config.get('docker.registries')
     })
     this._includes = includes
     this._replace = replace
