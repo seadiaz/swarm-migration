@@ -1,6 +1,5 @@
 const logger = require('winston')
 const highland = require('highland')
-const config = require('config')
 const FindServicesStep = require('./find-services-step')
 const FilterStep = require('./filter-step')
 const AddNetworkMapStep = require('./add-network-map-step')
@@ -8,18 +7,20 @@ const RemoveServiceStep = require('./remove-service-step')
 const IgnoreServiceStep = require('./ignore-service-step')
 const CreateServiceStep = require('./create-service-step')
 const DockerClient = require('../docker/client')
+const Config = require('../config')
 
 class MigrationServiceExpert {
-  constructor ({includes, replace, dry}) {
+  constructor ({includes, replace, dry, configFile}) {
     logger.silly('creating instance of %s', this.constructor.name)
+    this._config = Config.fromPath(configFile)
     this._originDocker = new DockerClient({
-      baseURL: config.get('docker.origin.url'),
-      apiKey: config.get('docker.origin.apiKey')
+      baseURL: this._config.get('docker.origin.url'),
+      apiKey: this._config.get('docker.origin.apiKey')
     })
     this._destinationDocker = new DockerClient({
-      baseURL: config.get('docker.destination.url'),
-      apiKey: config.get('docker.destination.apiKey'),
-      registries: config.get('docker.registries')
+      baseURL: this._config.get('docker.destination.url'),
+      apiKey: this._config.get('docker.destination.apiKey'),
+      registries: this._config.get('docker.registries')
     })
     this._includes = includes
     this._replace = replace

@@ -1,6 +1,5 @@
 const logger = require('winston')
 const highland = require('highland')
-const config = require('config')
 const DockerClient = require('../docker/client')
 const FindNetworksStep = require('./find-networks-step')
 const CreateNetworkStep = require('./create-network-step')
@@ -8,8 +7,8 @@ const CreateNetworkStep = require('./create-network-step')
 class MigrationNetworkExpert {
   constructor () {
     logger.silly('creating instance of %s', this.constructor.name)
-    this._originDocker = new DockerClient({baseURL: config.get('docker.origin.url'), apiKey: config.get('docker.origin.apiKey')})
-    this._destinationDocker = new DockerClient({socketPath: config.get('docker.destination.socket')})
+    // this._originDocker = new DockerClient({baseURL: config.get('docker.origin.url'), apiKey: config.get('docker.origin.apiKey')})
+    // this._destinationDocker = new DockerClient({socketPath: config.get('docker.destination.socket')})
   }
 
   run () {

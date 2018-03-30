@@ -16,17 +16,20 @@ exports.builder = {
     description: 'includes only that match the regex'
   },
   replace: {
-    default: false,
     type: 'boolean',
     description: 'replace if exists'
   },
   dry: {
-    default: false,
-    type: 'boolean'
+    type: 'boolean',
+    description: 'do not create anything, just show output to console'
+  },
+  'config-file': {
+    type: 'string',
+    default: './swamig.yaml'
   }
 }
 
 exports.handler = function (argv) {
-  if (argv.type === 'service') { new MigrationServiceExpert({includes: argv.includes, replace: argv.replace, dry: argv.dry}).run() }
+  if (argv.type === 'service') { new MigrationServiceExpert({includes: argv.includes, replace: argv.replace, dry: argv.dry, configFile: argv.configFile}).run() }
   if (argv.type === 'network') { new MigrationNetworkExpert().run() }
 }
